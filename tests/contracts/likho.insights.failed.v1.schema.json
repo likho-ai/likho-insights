@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://likho-ai.github.io/likho-contracts/events/likho.insights.failed.v1.schema.json",
+  "title": "A transcript could not be analysed",
+  "description": "data of likho.insights.failed.v1; published by likho-insights on NATS subject likho.insights.failed when the model did not answer, answered badly, or no model is configured.",
+  "type": "object",
+  "required": [
+    "transcript_id",
+    "recording_id",
+    "workspace_id",
+    "code",
+    "message"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "transcript_id": {
+      "type": "string",
+      "pattern": "^trn_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "recording_id": {
+      "type": "string",
+      "pattern": "^rec_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "workspace_id": {
+      "type": "string",
+      "pattern": "^wsp_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "code": {
+      "type": "string",
+      "enum": ["no_model", "transcript_not_found", "empty_transcript", "model_error", "bad_answer", "internal"]
+    },
+    "message": {
+      "type": "string"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

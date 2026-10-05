@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "likho-insights"
+version = "0.1.0"
+description = "Likho insights service: what a language model says about a transcribed call - a summary, the products, the mood, and the auditor's checks pre-filled"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "likho-contracts",
+    "anthropic>=0.60",
+    "grpcio>=1.70",
+    "grpcio-health-checking>=1.70",
+    "pymongo>=4.13",
+    "nats-py>=2.9",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "opentelemetry-sdk>=1.30",
+    "opentelemetry-exporter-prometheus>=0.51b0",
+    "opentelemetry-exporter-otlp-proto-http>=1.30",
+    "prometheus-client>=0.21",
+]
+
+[project.scripts]
+likho-insights = "likho_insights.__main__:main"
+
+[tool.uv.sources]
+likho-contracts = { git = "https://github.com/likho-ai/likho-contracts", tag = "v0.11.0", subdirectory = "packages/python" }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "jsonschema>=4.23",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/likho_insights"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "N", "RUF", "ASYNC"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # Devanagari strings are intentional, not "ambiguous" characters
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/likho_insights/grpc_server.py" = ["N802"]  # gRPC method names are CamelCase by contract
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+check_untyped_defs = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+# likho.* is the generated contracts package: it ships .pyi stubs but no py.typed marker yet.
+module = ["grpc.*", "grpc_health.*", "nats.*", "likho.*", "google.protobuf.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+addopts = "-q"
+markers = ["integration: needs MongoDB and NATS from likho-infra (bash scripts/up.sh)"]

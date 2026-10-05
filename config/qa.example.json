@@ -1,0 +1,19 @@
+{
+  "version": "example-1",
+  "description": "An example of an auditor's form. The company's own (its ten observations and its scored points) goes in config/qa.local.json, which git ignores, and is named in QA_FORM_FILE.",
+  "checks": [
+    { "key": "greeting", "label": "The agent greeted the customer and named the company" },
+    { "key": "need_understood", "label": "The agent understood what the customer called about before answering" },
+    { "key": "product_explained", "label": "The product or service was explained correctly" },
+    { "key": "price_stated", "label": "The price and the delivery terms were stated clearly" },
+    { "key": "objection_handled", "label": "An objection or doubt was answered, not brushed aside" },
+    { "key": "polite", "label": "The agent stayed polite and did not interrupt" },
+    { "key": "next_step", "label": "The call ended with a clear next step for the customer" },
+    { "key": "closing", "label": "The agent thanked the customer and closed the call properly" }
+  ],
+  "scores": [
+    { "key": "communication", "label": "Clarity and tone of the agent", "max": 5 },
+    { "key": "knowledge", "label": "Product knowledge shown", "max": 5 },
+    { "key": "resolution", "label": "The customer's need was handled", "max": 10 }
+  ]
+}

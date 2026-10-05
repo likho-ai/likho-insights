@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://likho-ai.github.io/likho-contracts/events/likho.insights.completed.v1.schema.json",
+  "title": "A transcript has its insights",
+  "description": "data of likho.insights.completed.v1; published by likho-insights on NATS subject likho.insights.completed once a language model has summarised a transcript and pre-filled the auditor's checks. The insights themselves are fetched over gRPC (InsightsService.GetInsights); the event carries the headline numbers.",
+  "type": "object",
+  "required": [
+    "insights_id",
+    "transcript_id",
+    "recording_id",
+    "workspace_id",
+    "model"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "insights_id": {
+      "type": "string",
+      "pattern": "^ins_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "transcript_id": {
+      "type": "string",
+      "pattern": "^trn_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "recording_id": {
+      "type": "string",
+      "pattern": "^rec_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "workspace_id": {
+      "type": "string",
+      "pattern": "^wsp_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "model": {
+      "type": "string",
+      "description": "The model's registry name, e.g. anthropic/claude-sonnet-5-5"
+    },
+    "sentiment": {
+      "type": "string",
+      "enum": ["positive", "neutral", "negative", "mixed"]
+    },
+    "score_total": {
+      "type": "number",
+      "minimum": 0
+    },
+    "score_max": {
+      "type": "number",
+      "minimum": 0
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "output_tokens": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

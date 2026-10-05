@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+dist/
+
+# Personal and secret settings on this machine; never committed.
+.env
+.env.local
+.env.*.local
+config/*.local.json
