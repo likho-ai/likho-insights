@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "1b9af1b376e2172f8b60a950abc02b4b32ad3a5a",
+  "include-component-in-tag": false,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": false,
+  "packages": {
+    ".": {
+      "release-type": "python",
+      "package-name": "likho-insights",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
